@@ -9,6 +9,17 @@ menu()
 	echo -en "$1" | sh -c "fzf --style full $2" | awk -F: '{printf $'$3'}'
 }
 
+open_video()
+{
+	local OPTION=$(echo -en "󰌑 Return\n See\n Music mode\n󰇚 Download\n󰐒 Save to list" | fzf --style full --header 'Video options...')
+	if [[ "$OPTION" == " See" ]]; then
+		# Save History
+		mpv --fullscreen "$1"
+	elif [[ "$OPTION" == " Music mode" ]]; then
+		mpv --no-video "$1"
+	fi
+}
+
 get_youtube()
 {
 	if [[ $1 -eq 0 ]]; then
@@ -20,8 +31,10 @@ get_youtube()
 		fi
 	else
 		NUM_SELECTED=$(( echo "󰌑 Return"; echo "󰐑 See all"; echo "󰲹 Music mode all"; echo "󰇚 Download all"; echo "󰐒 Save list"; yt-dlp --flat-playlist "$2" --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired videos" | awk -F: '{print $1}')
-		if [[ "$NUM_SELECTED" != '󰌑 Return' ]] || [[ "$NUM_SELECTED" != "󰐑 See all" ]] || [[ "$NUM_SELECTED" != "󰲹 Music mode all" ]] || [[ "$NUM_SELECTED" != "󰇚 Download all" ]] || [[ "$NUM_SELECTED" != "󰐒 Save list" ]]; then
+		if ! [ "$NUM_SELECTED" = '󰌑 Return' ] || ! [ "$NUM_SELECTED" = "󰐑 See all" ] || ! [ "$NUM_SELECTED" = "󰲹 Music mode all" ] || ! [ "$NUM_SELECTED" = "󰇚 Download all" ] || ! [ "$NUM_SELECTED" = "󰐒 Save list" ]; then
 			yt-dlp --flat-playlist "$2" --print url --playlist-items $NUM_SELECTED
+		else
+			echo $NUM_SELECTED
 		fi
 	fi
 }
@@ -48,7 +61,10 @@ subscribed_menu()
 					while [[ "$URL_PLAYLIST" != "󰌑 Return" ]]; do
 						URL_PLAYLIST=$(shift; get_youtube 0 $SUBSCRIBED_CHANNEL_SELECTED $TYPE_MEDIA_SEARCH_SELECTED)
 						if [[ "$URL_PLAYLIST" != "󰌑 Return" ]]; then
-							shift; get_youtube 1 "$URL_PLAYLIST"
+							local URL=$(get_youtube 1 "$URL_PLAYLIST")
+							if [[ "$URL" != "󰌑 Return" ]]; then
+								shift; open_video $URL
+							fi
 						fi
 					done
 				elif [[ $TYPE_MEDIA_SEARCH_SELECTED != "Return" ]]; then
@@ -56,13 +72,7 @@ subscribed_menu()
 					while [[ "$URL" != "󰌑 Return" ]]; do
 						URL=$(shift; get_youtube 0 $SUBSCRIBED_CHANNEL_SELECTED $TYPE_MEDIA_SEARCH_SELECTED)
 						if [[ "$URL" != "󰌑 Return" ]]; then							
-							local OPTION=$(echo -en "󰌑 Return\n See\n Music mode\n󰇚 Download\n󰐒 Save to list" | fzf --style full --header 'Video options...')
-							if [[ "$OPTION" == " See" ]]; then
-								# Save History
-								mpv --fullscreen "$URL"
-							elif [[ "$OPTION" == " Music mode" ]]; then
-								mpv --no-video "$URL"
-							fi
+							shift; open_video "$URL"
 						fi
 					done
 				fi

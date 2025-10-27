@@ -2,10 +2,20 @@
 
 PATH_SUBSCRIBED_CHANNELS=./subscribed_channels
 MAIN_MENU=-1
+BASE='https://www.youtube.com/@'
 
 menu()
 {
 	echo -en "$1" | sh -c "fzf $2" | awk -F: '{printf $1}'
+}
+
+get_youtube()
+{
+	if [[ $1 -eq 0 ]]; then
+		(echo "0: <-- Return"; yt-dlp --flat-playlist "$BASE$2/$3" --print "%(playlist_index)d: %(title)s") | fzf --header "Select the desired $3"
+	else
+		echo
+	fi
 }
 
 type_media_search_menu()
@@ -23,13 +33,17 @@ subscribed_menu()
 		SUBSCRIBED_CHANNEL_SELECTED=$(menu "$SUBSCRIBED_CHANNELS" "--header \"Select channel to see or add them in path=$PATH_SUBSCRIBED_CHANNELS\"")
 		if [[ "$SUBSCRIBED_CHANNEL_SELECTED" != "0" ]]; then
 			TYPE_MEDIA_SEARCH_SELECTED=$(type_media_search_menu)
+			if [[ "$TYPE_MEDIA_SEARCH_SELECTED" == playlists ]]; then
+				shift; get_youtube 0 $SUBSCRIBED_CHANNEL_SELECTED $TYPE_MEDIA_SEARCH_SELECTED
+			fi
 		fi
+		
 	done
 }
 
 main_menu()
 {
-	shift; menu "0: News!\n1: Subscribed\n2: Stored\n3: Settings\n4: Close" "--header 'Select an option' --preview='figlet -f ANSI\ Shadow Hi again :3'"
+	shift; menu "0: News!\n1: Subscribed\n2: Stored\n3: Settings\n4: Close" "--header 'Select an option'"
 }
 
 while [[ "$MAIN_MENU" -ne "4" ]]; do

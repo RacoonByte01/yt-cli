@@ -4,7 +4,7 @@
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [mpv](https://github.com/mpv-player/mpv)
 
-# Usage
+# ⌨️ Usage
 
 In the folder where you want to launch, create a text document called `subscribed_channels`.
 

@@ -12,7 +12,7 @@ menu()
 get_youtube()
 {
 	if [[ $1 -eq 0 ]]; then
-		NUM_SELECTED=$(( echo "󰌑 Return"; yt-dlp --flat-playlist "$BASE$2/$3" --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired $3" | awk -F: '{print $1}')
+		NUM_SELECTED=$(( echo "󰌑 Return"; yt-dlp --flat-playlist "$BASE$2/$3" --playlist-end 1000 --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired $3" | awk -F: '{print $1}')
 		if [[ $NUM_SELECTED == "󰌑 Return" ]]; then
 			echo "󰌑 Return"
 		else

@@ -31,10 +31,10 @@ get_youtube()
 		fi
 	else
 		NUM_SELECTED=$(( echo "󰌑 Return"; echo "󰐑 See all"; echo "󰲹 Music mode all"; echo "󰇚 Download all"; echo "󰐒 Save list"; yt-dlp --flat-playlist "$2" --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired videos" | awk -F: '{print $1}')
-		if ! [ "$NUM_SELECTED" = '󰌑 Return' ] || ! [ "$NUM_SELECTED" = "󰐑 See all" ] || ! [ "$NUM_SELECTED" = "󰲹 Music mode all" ] || ! [ "$NUM_SELECTED" = "󰇚 Download all" ] || ! [ "$NUM_SELECTED" = "󰐒 Save list" ]; then
-			yt-dlp --flat-playlist "$2" --print url --playlist-items $NUM_SELECTED
-		else
+		if [ "$NUM_SELECTED" = '󰌑 Return' ] || [ "$NUM_SELECTED" = "󰐑 See all" ] || [ "$NUM_SELECTED" = "󰲹 Music mode all" ] || [ "$NUM_SELECTED" = "󰇚 Download all" ] || [ "$NUM_SELECTED" = "󰐒 Save list" ]; then
 			echo $NUM_SELECTED
+		else
+			yt-dlp --flat-playlist "$2" --print url --playlist-items $NUM_SELECTED
 		fi
 	fi
 }

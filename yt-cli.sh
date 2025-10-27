@@ -3,7 +3,8 @@
 PATH_SUBSCRIBED_CHANNELS=./subscribed_channels
 MAIN_MENU=-1
 
-menu(){
+menu()
+{
 	echo -en "$1" | sh -c "fzf $2" | awk -F: '{printf $1}'
 }
 
@@ -12,7 +13,8 @@ type_media_search_menu()
 	menu "videos\nplaylists\nstreams\nshorts" "--header 'What content do you want?'"
 }
 
-subscribed_menu(){
+subscribed_menu()
+{
 	[[ -f $PATH_SUBSCRIBED_CHANNELS ]] || touch $PATH_SUBSCRIBED_CHANNELS
 	local SUBSCRIBED_CHANNEL_SELECTED=-1
 	local TYPE_MEDIA_SEARCH_SELECTED=-1

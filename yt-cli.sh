@@ -77,9 +77,7 @@ subscribed_menu()
 					done
 				fi
 			done
-
 		fi
-		
 	done
 }
 

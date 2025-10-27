@@ -1,3 +1,7 @@
+# 🤝 Presentation
+
+![demo](./.doc/demo1.mp4)
+
 # 🔍 Dependencies
 
 - [fzf](https://github.com/junegunn/fzf)

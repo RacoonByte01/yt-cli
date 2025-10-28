@@ -9,7 +9,7 @@ BASE='https://www.youtube.com/@'
 # * $2: Get the flags that fzf will have.
 # * $3: The desired menu item separated by `:`.
 # * Return: The number menu selected.
-#  TODO: Make the menus that load from yt-dpl load with the function for the loading bar.
+#  TODO: Make the menus that load from yt-dlp load with the function for the loading bar.
 menu()
 {
 	echo -en "$1" | sh -c "fzf --style full $2" | awk -F: '{printf $'"$3"'}'

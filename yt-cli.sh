@@ -21,7 +21,7 @@ open_video()
 {
 	OPTION=$(echo -en "󰌑 Return\n See\n Music mode\n󰇚 Download\n󰐒 Save to list" | fzf --style full --header 'Video options...')
 	if [[ "$OPTION" == " See" ]]; then
-		# Save History
+		#  TODO: Save History
 		mpv --fullscreen "$1"
 	elif [[ "$OPTION" == " Music mode" ]]; then
 		mpv --no-video "$1"

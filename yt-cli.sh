@@ -36,18 +36,18 @@ open_video()
 get_youtube()
 {
 	if [[ $1 -eq 0 ]]; then
-		NUM_SELECTED=$( ( echo "󰌑 Return"; yt-dlp --flat-playlist "$BASE$2/$3" --playlist-end 1000 --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired $3" | awk -F: '{print $1}')
+		NUM_SELECTED=$( ( echo "󰌑 Return"; yt-dlp -q --ignore-errors --no-warnings --flat-playlist "$BASE$2/$3" --playlist-end 1000 --print "%(playlist_index)d: %(title)s" 2> /dev/null ) | fzf --style full --header "Select the desired $3" | awk -F: '{print $1}')
 		if [[ $NUM_SELECTED == "󰌑 Return" ]]; then
 			echo "󰌑 Return"
 		else
-			yt-dlp --flat-playlist "$BASE$2/$3" --print url --playlist-items "$NUM_SELECTED"
+			yt-dlp -q --ignore-errors --no-warnings --flat-playlist "$BASE$2/$3" --print url --playlist-items "$NUM_SELECTED" 2> /dev/null
 		fi
 	else
-		NUM_SELECTED=$( ( echo "󰌑 Return"; echo "󰐑 See all"; echo "󰲹 Music mode all"; echo "󰇚 Download all"; echo "󰐒 Save list"; yt-dlp --flat-playlist "$2" --print "%(playlist_index)d: %(title)s" ) | fzf --style full --header "Select the desired videos" | awk -F: '{print $1}')
+		NUM_SELECTED=$( ( echo "󰌑 Return"; echo "󰐑 See all"; echo "󰲹 Music mode all"; echo "󰇚 Download all"; echo "󰐒 Save list"; yt-dlp -q --ignore-errors --no-warnings --flat-playlist "$2" --print "%(playlist_index)d: %(title)s" 2> /dev/null ) | fzf --style full --header "Select the desired videos" | awk -F: '{print $1}')
 		if [ "$NUM_SELECTED" = '󰌑 Return' ] || [ "$NUM_SELECTED" = "󰐑 See all" ] || [ "$NUM_SELECTED" = "󰲹 Music mode all" ] || [ "$NUM_SELECTED" = "󰇚 Download all" ] || [ "$NUM_SELECTED" = "󰐒 Save list" ]; then
 			echo "$NUM_SELECTED"
 		else
-			yt-dlp --flat-playlist "$2" --print url --playlist-items "$NUM_SELECTED"
+			yt-dlp -q --ignore-errors --no-warnings --flat-playlist "$2" --print url --playlist-items "$NUM_SELECTED" 2> /dev/null
 		fi
 	fi
 }

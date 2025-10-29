@@ -1,6 +1,6 @@
 # 🤝 Presentation
 
-![demo](https://github.com/user-attachments/assets/d5f8f0eb-efbb-4cc8-97a2-024046220148)
+[demo](https://github.com/user-attachments/assets/d5f8f0eb-efbb-4cc8-97a2-024046220148)
 
 # 🔍 Dependencies
 

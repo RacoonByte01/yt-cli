@@ -36,7 +36,7 @@ open_video()
 get_youtube()
 {
 	if [[ $1 -eq 0 ]]; then
-		NUM_SELECTED=$(fzf --style full --header "Select the desired $3" --bind 'start,ctrl-r:reload:echo "󰌑 Return"; i=0; while true; do yt-dlp -i -q --flat-playlist '"$BASE$2/$3"' --playlist-start $(($i*100+1)) --playlist-end $(($i*100+100)) --print "%(playlist_index)d: %(title)s"; i=$(($i+1)); done' | awk -F: '{print $1}')
+		NUM_SELECTED=$(fzf --style full --header "Select the desired $3" --bind 'start,ctrl-r:reload:echo "󰌑 Return"; i=0; while true; do feed=$(yt-dlp -i -q --flat-playlist '"$BASE$2/$3"' --playlist-start $(($i*100+1)) --playlist-end $(($i*100+100)) --print "%(playlist_index)d: %(title)s"); i=$(($i+1)); [[ "$feed" == "" ]] && exit 0 || echo $feed; done' | awk -F: '{print $1}')
 		if [[ $NUM_SELECTED == "󰌑 Return" ]]; then
 			echo "󰌑 Return"
 		else

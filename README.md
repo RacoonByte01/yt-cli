@@ -1,6 +1,6 @@
 # 🤝 Presentation
 
-https://github.com/user-attachments/assets/d5f8f0eb-efbb-4cc8-97a2-024046220148
+![demo](https://github.com/user-attachments/assets/d5f8f0eb-efbb-4cc8-97a2-024046220148)
 
 # 🔍 Dependencies
 
@@ -36,7 +36,7 @@ https://github.com/RacoonByte01/yt-cli.git
 Go inside the folder and run the `yt-cli.sh` document.
 
 ```sh
-cd ty-cli;./yt-cli.sh
+cd yt-cli;./yt-cli.sh
 ```
 
 > Enjoy :3

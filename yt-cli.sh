@@ -89,15 +89,20 @@ subscribed_menu()
 						local URL_PLAYLIST=-1
 						while [[ "$URL_PLAYLIST" != "󰌑 Return" ]]; do
 							URL_PLAYLIST=$(shift; get_youtube 0 "$SUBSCRIBED_CHANNEL_SELECTED" "$TYPE_MEDIA_SEARCH_SELECTED")
-							if [[ "$URL_PLAYLIST" != "󰌑 Return" ]]; then
-								local URL=-1
-								while [[ "$URL" != "󰌑 Return" ]]; do
-									URL=$(get_youtube 1 "$URL_PLAYLIST")
-									if [[ "$URL" != "󰌑 Return" ]]; then
-										shift; open_video "$URL"
-									fi
-								done
-							fi
+							case "$URL_PLAYLIST" in
+								"󰌑 Return"|"")
+									continue
+									;;
+								*)
+									URL=-1
+									while [[ "$URL" != "󰌑 Return" ]]; do
+										URL=$(get_youtube 1 "$URL_PLAYLIST")
+										if [[ "$URL" != "󰌑 Return" ]]; then
+											shift; open_video "$URL"
+										fi
+									done
+									;;
+							esac
 						done
 						;;
 					*)
